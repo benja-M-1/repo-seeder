@@ -1,0 +1,17 @@
+{
+	"auths": {
+		"https://index.docker.io/v1/": {},
+		"registry-1-stage.docker.io": {},
+		"registry-1.docker.io": {}
+	},
+	"credStore": "desktop",
+	"currentContext": "desktop-linux",
+	"plugins": {
+		"debug": {
+			"hooks": "exec"
+		},
+		"scout": {
+			"hooks": "pull,buildx build"
+		}
+	}
+}
