@@ -1,19 +1,14 @@
 #!/bin/bash
 
 # Configuration
-SOURCE_IMAGE="${SOURCE_IMAGE:-golang}"
-DESTINATION_REPOSITORY="${DESTINATION_REPOSITORY:-image-management-test-repo}"
-NUMBER_OF_TAGS="${NUMBER_OF_TAGS:-80}"
-DOCKER_CONFIG_PATH="${DOCKER_CONFIG_PATH:-/root}"
-
 if [ -z "${DESTINATION_NAMESPACE}" ]; then
     echo "DESTINATION_NAMESPACE environment variable must be set with the namespace to push to"
     exit 1
 fi
 
-mkdir -p /root/.docker
-cp ${DOCKER_CONFIG_PATH}/config.json /root/.docker/config.json
-sed -i "s/credsStore/credStore/g" /root/.docker/config.json
+SOURCE_IMAGE="${SOURCE_IMAGE:-golang}"
+DESTINATION_REPOSITORY="${DESTINATION_REPOSITORY:-image-management-test-repo}"
+NUMBER_OF_TAGS="${NUMBER_OF_TAGS:-80}"
 
 # Check if crane is installed
 if ! command -v crane &> /dev/null; then
@@ -21,7 +16,7 @@ if ! command -v crane &> /dev/null; then
     echo "You can install it using: go install github.com/google/go-containerregistry/cmd/crane@latest"
     exit 1
 fi
-
+ 
 # Get the list of tags and sort them by creation date (newest first)
 echo "Fetching tags from ${SOURCE_IMAGE}..."
 TAGS=$(crane ls ${SOURCE_IMAGE} | head -n ${NUMBER_OF_TAGS})
